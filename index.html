@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Nilu Paudel | Portfolio</title>
+
+<style>
+
+body{
+font-family: Arial, sans-serif;
+margin:0;
+background:#f4f4f4;
+color:#333;
+transition:0.3s;
+}
+
+.dark{
+background:#111;
+color:#eee;
+}
+
+header{
+background:#222;
+color:white;
+text-align:center;
+padding:40px;
+}
+
+header img{
+width:100px;
+height:140px;
+border-radius:50%;
+border:4px solid white;
+}
+
+nav{
+text-align:center;
+background:#333;
+padding:10px;
+}
+
+nav a{
+color:white;
+margin:0 15px;
+text-decoration:none;
+font-weight:bold;
+}
+
+section{
+max-width:900px;
+margin:auto;
+padding:40px 20px;
+}
+
+.card{
+background:white;
+padding:20px;
+margin-top:20px;
+border-radius:6px;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+transition:0.3s;
+}
+
+.dark .card{
+background:#1e1e1e;
+}
+
+.skill{
+display:inline-block;
+background:#eee;
+padding:8px 12px;
+margin:5px;
+border-radius:4px;
+cursor:pointer;
+}
+
+.skill:hover{
+transform:scale(1.1);
+background:#ddd;
+}
+
+button{
+padding:8px 15px;
+cursor:pointer;
+}
+
+footer{
+text-align:center;
+padding:20px;
+background:#222;
+color:white;
+}
+
+header img{
+width:140px;
+height:140px;
+border-radius:50%;
+border:4px solid white;
+transition:0.3s;
+cursor:pointer;
+}
+
+header img:hover{
+transform:scale(1.6);
+box-shadow:0 10px 25px rgba(0,0,0,0.4);
+}
+header{
+background:#222;
+color:white;
+text-align:center;
+padding:40px;
+overflow:hidden;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<img src="nilu.jpg" alt="profile">
+
+<h1>Nilu Paudel</h1>
+<p>IT Enthusiast | Coding Instructor | Content Creator</p>
+
+
+</header>
+
+<nav>
+
+<a href="#about">About</a>
+<a href="#education">Education</a>
+<a href="#experience">Experience</a>
+<a href="#skills">Skills</a>
+<a href="#contact">Contact</a>
+
+</nav>
+
+
+<section id="about">
+
+<h2>About Me</h2>
+
+<div class="card">
+Proactive IT professional interested in software development, digital solutions and teaching coding. Passionate about learning new technologies and helping students build real projects.
+</div>
+
+</section>
+
+
+<section id="education">
+
+<h2>Education</h2>
+
+<div class="card">
+<ul>
+<li>Bachelor in Computer Applications – Padmashree College (2026)</li>
+<li>+2 Science with Computer – Shree Mahendra Secondary School (2021)</li>
+</ul>
+</div>
+
+</section>
+
+
+<section id="experience">
+
+<h2>Experience</h2>
+
+<div class="card">
+<ul>
+<li>Coding Instructor – Mero Coding Class (2024–Present)</li>
+<li>Data Operator & Content Creator – Learnsic Education (2024)</li>
+<li>Lab Assistant – Shree Mahendra Secondary School (2020)</li>
+<li>Computer Instructor – Malika IT College (2019)</li>
+</ul>
+</div>
+
+</section>
+
+
+<section id="skills">
+
+<h2>Skills</h2>
+
+<div class="card">
+
+<div class="skill" onclick="showSkill('HTML, CSS, JS for building websites')">HTML / CSS / JS</div>
+<div class="skill" onclick="showSkill('Python for scripting and backend work')">Python</div>
+<div class="skill" onclick="showSkill('Teaching coding to students')">Scratch / App Inventor</div>
+<div class="skill" onclick="showSkill('Design and editing')">Illustrator</div>
+<div class="skill" onclick="showSkill('Content creation tools')">CapCut</div>
+
+<p id="skillInfo"></p>
+
+</div>
+
+</section>
+
+
+<section id="contact">
+
+<h2>Contact</h2>
+
+<div class="card">
+<p>Email: paudelnilu2@gmail.com</p>
+<p>Phone: +977 9764796864</p>
+<p>Location: Tinkune, Kathmandu</p>
+</div>
+
+</section>
+
+
+<footer>
+
+© 2026 Nilu Paudel
+
+</footer>
+
+
+<script>
+
+//function toggleMode(){
+//document.body.classList.toggle("dark");
+//}
+
+function showSkill(text){
+document.getElementById("skillInfo").innerText=text;
+}
+
+document.querySelectorAll("nav a").forEach(link=>{
+link.addEventListener("click",function(e){
+e.preventDefault();
+document.querySelector(this.getAttribute("href")).scrollIntoView({
+behavior:"smooth"
+});
+});
+});
+
+</script>
+
+</body>
+</html>
