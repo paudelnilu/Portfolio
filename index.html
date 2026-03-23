@@ -868,7 +868,7 @@
     .project-link:hover { gap: 8px; color: var(--accent2); }
 
     /* ════════════════════════════════════
-       CONTACT
+       CONTACT — SECRET REVEAL
     ════════════════════════════════════ */
     .contact-grid {
       display: grid;
@@ -887,6 +887,8 @@
       transition: all var(--transition);
       text-decoration: none;
       color: var(--text);
+      position: relative;
+      overflow: hidden;
     }
 
     .contact-card:hover {
@@ -920,7 +922,131 @@
       font-weight: 600;
       font-size: 0.95rem;
       color: var(--text);
+      position: relative;
     }
+
+    /* ── Hidden state: blurred & masked ── */
+    .contact-card.secret .contact-value {
+      filter: blur(6px);
+      user-select: none;
+      pointer-events: none;
+      transition: filter 0.5s ease, opacity 0.5s ease;
+      opacity: 0.5;
+    }
+
+    /* ── Hint overlay shown on secret cards ── */
+    .contact-card.secret::after {
+      content: '🔒 Double-click to reveal';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      background: rgba(var(--surface-rgb, 255,255,255), 0.0);
+      border-radius: var(--radius-lg);
+      opacity: 0;
+      transition: opacity var(--transition);
+      pointer-events: none;
+    }
+
+    [data-theme="dark"] .contact-card.secret::after {
+      background: rgba(30,26,20,0.0);
+    }
+
+    .contact-card.secret:hover::after {
+      opacity: 1;
+    }
+
+    /* ── Pulse ring on secret cards ── */
+    .contact-card.secret {
+      cursor: pointer;
+    }
+
+    .contact-card.secret .contact-icon::after {
+      content: '';
+      position: absolute;
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      border: 2px solid var(--accent);
+      opacity: 0;
+      animation: pulseRing 2s ease-out infinite;
+    }
+
+    @keyframes pulseRing {
+      0%   { transform: scale(1); opacity: 0.5; }
+      100% { transform: scale(1.5); opacity: 0; }
+    }
+
+    /* ── Revealed state ── */
+    .contact-card.revealed .contact-value {
+      filter: none;
+      opacity: 1;
+      pointer-events: auto;
+      animation: revealBurst 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .contact-card.revealed::after {
+      display: none;
+    }
+
+    .contact-card.revealed {
+      border-color: rgba(200,96,42,0.4);
+      box-shadow: 0 0 0 3px rgba(200,96,42,0.12), var(--shadow-hover);
+      cursor: default;
+      animation: revealGlow 0.6s ease forwards;
+    }
+
+    .contact-card.revealed .contact-icon::after {
+      display: none;
+    }
+
+    @keyframes revealBurst {
+      0%   { filter: blur(6px); opacity: 0.5; transform: scale(0.97); }
+      60%  { filter: blur(1px); opacity: 0.9; transform: scale(1.03); }
+      100% { filter: none;      opacity: 1;   transform: scale(1); }
+    }
+
+    @keyframes revealGlow {
+      0%   { box-shadow: 0 0 0 0px rgba(200,96,42,0.5); }
+      50%  { box-shadow: 0 0 0 8px rgba(200,96,42,0.15); }
+      100% { box-shadow: 0 0 0 3px rgba(200,96,42,0.12), var(--shadow-hover); }
+    }
+
+    /* ── Ripple on double-click ── */
+    .contact-ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(200,96,42,0.25);
+      transform: scale(0);
+      animation: rippleAnim 0.55s linear;
+      pointer-events: none;
+    }
+
+    @keyframes rippleAnim {
+      to { transform: scale(4); opacity: 0; }
+    }
+
+    /* ── Hint text below contact section ── */
+    .contact-hint {
+      text-align: center;
+      margin-top: 20px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: var(--text2);
+      opacity: 0.6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: opacity var(--transition);
+    }
+
+    .contact-hint.hidden { opacity: 0; pointer-events: none; }
 
     /* ════════════════════════════════════
        FOOTER
@@ -1278,22 +1404,26 @@
     <h2 class="section-title reveal">Get in Touch</h2>
 
     <div class="contact-grid reveal">
-      <a href="mailto:paudelnilu2@gmail.com" class="contact-card" aria-label="Email Nilu Paudel">
+
+      <!-- EMAIL — secret, revealed on double-click -->
+      <div class="contact-card secret" id="contact-email" role="button" tabindex="0" aria-label="Double-click to reveal email" title="Double-click to reveal">
         <div class="contact-icon">✉️</div>
         <div>
           <div class="contact-label">Email</div>
-          <div class="contact-value">paudelnilu2@gmail.com</div>
+          <div class="contact-value" id="email-value">paudelnilu2@gmail.com</div>
         </div>
-      </a>
+      </div>
 
-      <a href="tel:+9779764796864" class="contact-card" aria-label="Call Nilu Paudel">
+      <!-- PHONE — secret, revealed on double-click -->
+      <div class="contact-card secret" id="contact-phone" role="button" tabindex="0" aria-label="Double-click to reveal phone number" title="Double-click to reveal">
         <div class="contact-icon">📞</div>
         <div>
           <div class="contact-label">Phone</div>
-          <div class="contact-value">+977 9764796864</div>
+          <div class="contact-value" id="phone-value">+977 9764796864</div>
         </div>
-      </a>
+      </div>
 
+      <!-- LOCATION — always visible -->
       <div class="contact-card">
         <div class="contact-icon">📍</div>
         <div>
@@ -1302,6 +1432,7 @@
         </div>
       </div>
 
+      <!-- AVAILABILITY — always visible -->
       <div class="contact-card">
         <div class="contact-icon">🕐</div>
         <div>
@@ -1310,6 +1441,11 @@
         </div>
       </div>
     </div>
+
+    <!-- Hint text, hides after both are revealed -->
+    <p class="contact-hint" id="contact-hint">
+      <span>🔒</span> Double-click the email or phone card to reveal contact details
+    </p>
   </section>
 
   <!-- ═══ FOOTER ═══ -->
@@ -1396,7 +1532,6 @@
     // ─── Skill Cards ───────────────────────────────────
     const tooltip = document.getElementById('skillTooltip');
 
-    // Animate bars when in view
     const barObs = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -1418,6 +1553,91 @@
       };
       card.addEventListener('click', activate);
       card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') activate(); });
+    });
+
+    // ─── Secret Contact Reveal ─────────────────────────
+    const contactHint = document.getElementById('contact-hint');
+    let revealedCount = 0;
+
+    function createRipple(card, e) {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const ripple = document.createElement('span');
+      ripple.classList.add('contact-ripple');
+      const size = Math.max(rect.width, rect.height);
+      ripple.style.cssText = `
+        width: ${size}px;
+        height: ${size}px;
+        left: ${x - size / 2}px;
+        top: ${y - size / 2}px;
+      `;
+      card.appendChild(ripple);
+      ripple.addEventListener('animationend', () => ripple.remove());
+    }
+
+    function revealCard(card, e) {
+      if (card.classList.contains('revealed')) return;
+      createRipple(card, e);
+      card.classList.remove('secret');
+      card.classList.add('revealed');
+      revealedCount++;
+
+      // After reveal, make email card a real link
+      if (card.id === 'contact-email') {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', () => {
+          window.location.href = 'mailto:paudelnilu2@gmail.com';
+        });
+      }
+      if (card.id === 'contact-phone') {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', () => {
+          window.location.href = 'tel:+9779764796864';
+        });
+      }
+
+      // Hide hint once both are revealed
+      if (revealedCount >= 2) {
+        contactHint.classList.add('hidden');
+      }
+    }
+
+    // Double-click to reveal (mouse)
+    document.getElementById('contact-email').addEventListener('dblclick', function(e) {
+      revealCard(this, e);
+    });
+    document.getElementById('contact-phone').addEventListener('dblclick', function(e) {
+      revealCard(this, e);
+    });
+
+    // Keyboard: Enter or Space also reveals (accessibility)
+    [document.getElementById('contact-email'), document.getElementById('contact-phone')].forEach(card => {
+      let lastKey = 0;
+      card.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          const now = Date.now();
+          if (now - lastKey < 500) {
+            // Double-tap on keyboard
+            revealCard(this, { clientX: 0, clientY: 0 });
+          }
+          lastKey = now;
+        }
+      });
+    });
+
+    // Touch: double-tap to reveal on mobile
+    [document.getElementById('contact-email'), document.getElementById('contact-phone')].forEach(card => {
+      let lastTap = 0;
+      card.addEventListener('touchend', function(e) {
+        const now = Date.now();
+        if (now - lastTap < 400) {
+          const touch = e.changedTouches[0];
+          revealCard(this, { clientX: touch.clientX, clientY: touch.clientY });
+          e.preventDefault();
+        }
+        lastTap = now;
+      });
     });
   </script>
 </body>
