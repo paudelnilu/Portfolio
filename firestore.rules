@@ -1,0 +1,83 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isContactMessage() {
+      return request.resource.data.keys().hasOnly([
+          'name',
+          'email',
+          'subject',
+          'message',
+          'status',
+          'createdAt',
+          'source'
+        ]) &&
+        request.resource.data.name is string &&
+        request.resource.data.name.size() >= 1 &&
+        request.resource.data.name.size() <= 120 &&
+        request.resource.data.email is string &&
+        request.resource.data.email.matches('^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$') &&
+        request.resource.data.subject is string &&
+        request.resource.data.subject.size() >= 1 &&
+        request.resource.data.subject.size() <= 160 &&
+        request.resource.data.message is string &&
+        request.resource.data.message.size() >= 1 &&
+        request.resource.data.message.size() <= 3000 &&
+        request.resource.data.status == 'new' &&
+        request.resource.data.source == 'portfolio-contact-form' &&
+        (
+          request.resource.data.createdAt is timestamp ||
+          (
+            request.resource.data.createdAt is string &&
+            request.resource.data.createdAt.matches('^\\d{4}-\\d{2}-\\d{2}T.*Z$')
+          )
+        );
+    }
+
+    function isPortfolioEmailQueueItem() {
+      return request.resource.data.keys().hasOnly([
+          'to',
+          'message',
+          'contactMessageId',
+          'createdAt',
+          'source'
+        ]) &&
+        request.resource.data.to is list &&
+        request.resource.data.to.size() == 1 &&
+        request.resource.data.to[0] is string &&
+        request.resource.data.to[0].matches('^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$') &&
+        request.resource.data.message is map &&
+        request.resource.data.message.keys().hasOnly([
+          'subject',
+          'text',
+          'html'
+        ]) &&
+        request.resource.data.message.subject is string &&
+        request.resource.data.message.subject.size() >= 1 &&
+        request.resource.data.message.subject.size() <= 200 &&
+        request.resource.data.message.text is string &&
+        request.resource.data.message.text.size() >= 1 &&
+        request.resource.data.message.text.size() <= 5000 &&
+        request.resource.data.message.html is string &&
+        request.resource.data.message.html.size() >= 1 &&
+        request.resource.data.message.html.size() <= 8000 &&
+        request.resource.data.contactMessageId is string &&
+        request.resource.data.contactMessageId.size() >= 1 &&
+        request.resource.data.createdAt is string &&
+        request.resource.data.createdAt.matches('^\\d{4}-\\d{2}-\\d{2}T.*Z$') &&
+        request.resource.data.source == 'portfolio-contact-form';
+    }
+
+    match /contactMessages/{messageId} {
+      allow create: if isContactMessage();
+
+      allow read, update, delete: if false;
+    }
+
+    match /mail/{mailId} {
+      allow create: if isPortfolioEmailQueueItem();
+
+      allow read, update, delete: if false;
+    }
+  }
+}
