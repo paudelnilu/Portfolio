@@ -83,7 +83,7 @@ export default function Contact() {
         <div className="grid gap-8 lg:grid-cols-3 mb-12">
           {/* Contact Info Cards */}
           <div className="lg:col-span-1 space-y-4">
-            <motion.a 
+            <motion.a
               href="mailto:paudelnilu2@gmail.com"
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -103,7 +103,7 @@ export default function Contact() {
               </Card>
             </motion.a>
 
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -124,7 +124,7 @@ export default function Contact() {
           </div>
 
           {/* Contact Form */}
-          <motion.div 
+          <motion.div
             className="lg:col-span-2"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -141,11 +141,11 @@ export default function Contact() {
                   <div className="grid sm:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <Label htmlFor="name" className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Name</Label>
-                      <Input type="text" id="name" name="name" required placeholder="John Doe" className="bg-background" />
+                      <Input type="text" id="name" name="name" required placeholder="Nilu Paudel" className="bg-background" />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="email" className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Email</Label>
-                      <Input type="email" id="email" name="email" required placeholder="john@example.com" className="bg-background" />
+                      <Input type="email" id="email" name="email" required placeholder="nilu@example.com" className="bg-background" />
                     </div>
                   </div>
                   <div className="space-y-2">
@@ -171,13 +171,12 @@ export default function Contact() {
                         </>
                       )}
                     </Button>
-                    
+
                     {msg && (
-                      <p className={`text-sm font-medium px-4 py-2 rounded-md ${
-                        status === 'ok' 
-                          ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' 
+                      <p className={`text-sm font-medium px-4 py-2 rounded-md ${status === 'ok'
+                          ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
                           : 'bg-destructive/10 text-destructive'
-                      }`}>
+                        }`}>
                         {msg}
                       </p>
                     )}
