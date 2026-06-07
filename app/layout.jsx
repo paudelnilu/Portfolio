@@ -1,6 +1,7 @@
 import { DM_Mono, DM_Sans, Geist } from 'next/font/google';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import ProgressBar from '@/components/ProgressBar';
+import Script from 'next/script';
 import './globals.css';
 import { cn } from "@/lib/utils";
 
@@ -74,6 +75,19 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
       </head>
+      {/* Google Analytics */}
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-J2690XXHSJ"
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-J2690XXHSJ');
+        `}
+      </Script>
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ProgressBar />
