@@ -1,7 +1,7 @@
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import * as motion from 'framer-motion/client';
-import { ArrowUpRight, FolderGit2, CheckCircle2 } from 'lucide-react';
+import { ArrowUpRight, FolderGit2, CheckCircle2, Play } from 'lucide-react';
 
 const projects = [
   {
@@ -25,12 +25,23 @@ const projects = [
     iconBg: 'bg-emerald-500/10',
   },
   {
+    title: 'Smart Parking Assistant',
+    desc: 'An IoT-based smart parking system built with ESP32 and an Ultrasonic Sensor to detect parking space occupancy in real time. Displays live slot availability and automates gate control.',
+    tags: ['IoT', 'ESP32', 'C++', 'Ultrasonic Sensor', 'Firebase'],
+    link: 'https://github.com/paudelnilu/Smart-Parking-Assistant',
+    linkText: 'View on GitHub',
+    videoLink: 'https://www.linkedin.com/posts/nilu-paudel_iot-esp32-smartparking-ugcPost-7483826943595917315-qA9F/',
+    meta: 'IoT · ESP32',
+    iconColor: 'text-violet-500',
+    iconBg: 'bg-violet-500/10',
+  },
+  {
     title: 'Job Portal with Salary Prediction',
     desc: 'A full-stack job platform where users can browse and apply for IT jobs, and employers can post vacancies. Includes an ML model for salary prediction based on job-related factors.',
     tags: ['Python', 'Django', 'MySQL', 'Machine Learning'],
     link: 'https://github.com/paudelnilu/Job-Portal-with-Salary-Prediction',
     linkText: 'View on GitHub',
-    meta: 'Django \u00b7 ML',
+    meta: 'Django · ML',
     iconColor: 'text-amber-500',
     iconBg: 'bg-amber-500/10',
   },
@@ -40,7 +51,7 @@ const projects = [
     tags: ['PHP', 'MySQL', 'JavaScript', 'CRUD'],
     link: 'https://github.com/paudelnilu/Recipes',
     linkText: 'View on GitHub',
-    meta: 'PHP \u00b7 MySQL',
+    meta: 'PHP · MySQL',
     iconColor: 'text-rose-500',
     iconBg: 'bg-rose-500/10',
   },
@@ -89,7 +100,7 @@ export default function Projects() {
                     {proj.desc}
                   </p>
                 </CardContent>
-                <CardFooter className="p-6 pt-0 flex items-center justify-between border-t border-border/10 mt-auto">
+                <CardFooter className="p-6 pt-0 flex items-center justify-between border-t border-border/10 mt-auto gap-3">
                   <a
                     href={proj.link}
                     target="_blank"
@@ -99,7 +110,17 @@ export default function Projects() {
                     {proj.linkText}
                     <ArrowUpRight className="ml-1 h-4 w-4" />
                   </a>
-                  {proj.status === 'Live' ? (
+                  {proj.videoLink ? (
+                    <a
+                      href={proj.videoLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full bg-violet-500/10 text-violet-500 hover:bg-violet-500/20 transition-colors"
+                    >
+                      <Play className="h-3 w-3 fill-violet-500" />
+                      Watch Demo
+                    </a>
+                  ) : proj.status === 'Live' ? (
                     <Badge variant="outline" className="gap-1.5 border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
                       Live
